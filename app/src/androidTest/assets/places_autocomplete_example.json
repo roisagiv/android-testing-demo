@@ -1,0 +1,158 @@
+{
+  "predictions": [
+    {
+      "description": "Victoria, Australia",
+      "id": "0328fb981d48f228012b5d4b7ab0d0f404f439fd",
+      "matched_substrings": [
+        {
+          "length": 4,
+          "offset": 0
+        }
+      ],
+      "place_id": "ChIJT5UYfksx1GoRNJWCvuL8Tlo",
+      "reference": "CjQrAAAAEfUX97JXrT-5BvL6SVpK2LlcRbRTNptcCEY6i99767VksBoP4qTAV_BGEqv7w-ClEhAu0Dh8tEKEXsCURkazZ1cWGhQdRVUGvOEBsHj7IQdTdecaKMSjtw",
+      "terms": [
+        {
+          "offset": 0,
+          "value": "Victoria"
+        },
+        {
+          "offset": 10,
+          "value": "Australia"
+        }
+      ],
+      "types": [
+        "administrative_area_level_1",
+        "political",
+        "geocode"
+      ]
+    },
+    {
+      "description": "Victoria, BC, Canada",
+      "id": "d5892cffd777f0252b94ab2651fea7123d2aa34a",
+      "matched_substrings": [
+        {
+          "length": 4,
+          "offset": 0
+        }
+      ],
+      "place_id": "ChIJcWGw3Ytzj1QR7Ui7HnTz6Dg",
+      "reference": "CjQsAAAAP6wmf8gs88jeRVys1kDDykanNekaYFNR2JYU9HoFrJr0MKlx4DkKKUtJIWif8quVEhCz7X2G2nls4KsdCbrIEt9KGhRlGypnt1fAyqhYeh6jbVBHQk_-dw",
+      "terms": [
+        {
+          "offset": 0,
+          "value": "Victoria"
+        },
+        {
+          "offset": 10,
+          "value": "BC"
+        },
+        {
+          "offset": 14,
+          "value": "Canada"
+        }
+      ],
+      "types": [
+        "locality",
+        "political",
+        "geocode"
+      ]
+    },
+    {
+      "description": "Victoria Station, London, United Kingdom",
+      "id": "424c895c8d2d24a2a3b68d99c7e6bc782c8683f2",
+      "matched_substrings": [
+        {
+          "length": 4,
+          "offset": 0
+        }
+      ],
+      "place_id": "ChIJDdMfySEFdkgRVkEX9DXbVvU",
+      "reference": "CkRAAAAAvzjPeRpkzTyghCyUuGOT5ij6LjJTAslvqTG1jcG-bpCTfgvdY72dvYlU_cY7JF4QwHCIXlSS8I7T6GBBzaxJUhIQwGzLYgWwN31ftSFd3zBVuhoU1dgfnpBNVbDGNgMGiHoAkOVbGJc",
+      "terms": [
+        {
+          "offset": 0,
+          "value": "Victoria Station"
+        },
+        {
+          "offset": 18,
+          "value": "London"
+        },
+        {
+          "offset": 26,
+          "value": "United Kingdom"
+        }
+      ],
+      "types": [
+        "premise",
+        "geocode"
+      ]
+    },
+    {
+      "description": "Victoria Coach Station, Buckingham Palace Road, London, United Kingdom",
+      "id": "118d77aff7358bda45eb91eedd725e62cae8468a",
+      "matched_substrings": [
+        {
+          "length": 4,
+          "offset": 0
+        }
+      ],
+      "place_id": "ChIJrxpS6hgFdkgRhUwkBy1TEGU",
+      "reference": "CmReAAAAbkKNJ_UDAHlwnWt7dKBmbBsL9k6fM-Wnzk8AjLfIW7s5ze5ORlbjsiARDxeKDa7UXqflubcVr5HUgKUYWyF_CDvQy3L-UOMWQSPIKtSLnIqdK8maCNeMZjpEhwsEVsIWEhD1NPvfPY3tU4orYCwfN1fpGhRnzq3vaIczhjBcf2BYE2DL_2KSUg",
+      "terms": [
+        {
+          "offset": 0,
+          "value": "Victoria Coach Station"
+        },
+        {
+          "offset": 24,
+          "value": "Buckingham Palace Road"
+        },
+        {
+          "offset": 48,
+          "value": "London"
+        },
+        {
+          "offset": 56,
+          "value": "United Kingdom"
+        }
+      ],
+      "types": [
+        "premise",
+        "geocode"
+      ]
+    },
+    {
+      "description": "Victorville, CA, United States",
+      "id": "dd296d3fde2a539b9279cdd817c01183f69d07a7",
+      "matched_substrings": [
+        {
+          "length": 4,
+          "offset": 0
+        }
+      ],
+      "place_id": "ChIJedLdY1pkw4ARdjT0JVkRlQ0",
+      "reference": "CkQ2AAAAumqhYyq7mxy3vQzXywTuis3fG8oVdTYsZm47MGd9Deri5yFQQFmKAqM5NBLTcSzFNMbJZJxomnwcaNLGORiCYxIQUIk_j6813rnfr5Wppij1bRoUc0B6jX8dg5BZWBBLtXKjGqnI-oc",
+      "terms": [
+        {
+          "offset": 0,
+          "value": "Victorville"
+        },
+        {
+          "offset": 13,
+          "value": "CA"
+        },
+        {
+          "offset": 17,
+          "value": "United States"
+        }
+      ],
+      "types": [
+        "locality",
+        "political",
+        "geocode"
+      ]
+    }
+  ],
+  "status": "OK"
+}

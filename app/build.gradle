@@ -5,7 +5,7 @@ android {
   buildToolsVersion "23.0.1"
 
   defaultConfig {
-    applicationId "roisagiv.com.aroundme"
+    applicationId "com.roisagiv.aroundme"
     minSdkVersion 16
     targetSdkVersion 23
     versionCode 1
@@ -15,6 +15,14 @@ android {
   }
 
   buildTypes {
+    debug {
+      if (rootProject.file('local.properties').exists()) {
+        def props = new Properties()
+        props.load(new FileInputStream(rootProject.file('local.properties')))
+        buildConfigField "String", "GOOGLE_PLACES_API_KEY",
+            "\"" + props['google_places_api_key'] + "\""
+      }
+    }
     release {
       minifyEnabled false
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -29,6 +37,12 @@ android {
   packagingOptions {
     exclude 'LICENSE.txt'
   }
+
+  signingConfigs {
+    debug {
+      storeFile file('../debug.keystore')
+    }
+  }
 }
 
 dependencies {
@@ -36,6 +50,9 @@ dependencies {
   testCompile 'junit:junit:4.12'
   compile 'com.android.support:appcompat-v7:23.0.1'
   compile 'com.android.support:design:23.0.1'
+  compile 'com.squareup.okhttp:okhttp:2.5.0'
 
   androidTestCompile 'com.android.support.test:runner:0.4'
+  androidTestCompile 'com.squareup.okhttp:mockwebserver:2.5.0'
+  androidTestCompile 'org.assertj:assertj-core:1.7.1'
 }

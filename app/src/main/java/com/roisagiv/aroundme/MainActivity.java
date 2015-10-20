@@ -1,4 +1,4 @@
-package roisagiv.com.aroundme;
+package com.roisagiv.aroundme;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
