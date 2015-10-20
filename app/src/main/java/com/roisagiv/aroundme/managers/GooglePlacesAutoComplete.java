@@ -6,7 +6,11 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * The type Google places auto complete.
@@ -43,7 +47,24 @@ public class GooglePlacesAutoComplete implements PlacesAutoComplete {
     try {
 
       com.squareup.okhttp.Response response = call.execute();
-    } catch (IOException e) {
+      results.setHttpCode(response.code());
+
+      JSONObject json = new JSONObject(response.body().string());
+      JSONArray predictionsAsJson = json.getJSONArray("predictions");
+      List<AutoCompletePrediction> predictions = new ArrayList<>(predictionsAsJson.length());
+
+      for (int i = 0; i < predictionsAsJson.length(); i++) {
+        JSONObject predictionAsJson = predictionsAsJson.getJSONObject(i);
+        AutoCompletePrediction prediction = new AutoCompletePrediction();
+        prediction.setDescription(predictionAsJson.getString("description"));
+        prediction.setId(predictionAsJson.getString("id"));
+
+        predictions.add(prediction);
+      }
+
+      results.setResults(predictions);
+    } catch (IOException | JSONException e) {
+      results.setError(e);
     }
 
     return results;
