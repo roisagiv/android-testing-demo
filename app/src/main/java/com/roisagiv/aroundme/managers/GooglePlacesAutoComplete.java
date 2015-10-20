@@ -4,10 +4,8 @@ import com.squareup.okhttp.Call;
 import com.squareup.okhttp.HttpUrl;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 import java.io.IOException;
 import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONArray;
@@ -34,6 +32,24 @@ public class GooglePlacesAutoComplete implements PlacesAutoComplete {
    * @return the list
    */
   @Override public Response<List<AutoCompletePrediction>> autoComplete(String text) {
-    return new Response<>();
+    OkHttpClient client = new OkHttpClient();
+
+    HttpUrl.Builder httpBuilder = HttpUrl.get(URI.create(baseUrl)).newBuilder();
+    httpBuilder.encodedPath("/maps/api/place/autocomplete/json")
+        .addQueryParameter("input", text)
+        .addQueryParameter("key", apiKey);
+
+    Request.Builder requestBuilder = new Request.Builder();
+    requestBuilder.url(httpBuilder.build());
+
+    Response<List<AutoCompletePrediction>> results = new Response<>();
+    Call call = client.newCall(requestBuilder.build());
+    try {
+
+      com.squareup.okhttp.Response response = call.execute();
+    } catch (IOException e) {
+    }
+
+    return results;
   }
 }
