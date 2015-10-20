@@ -86,4 +86,70 @@ import static org.assertj.core.api.Assertions.assertThat;
     RecordedRequest recordedRequest = server.takeRequest(10, TimeUnit.MILLISECONDS);
     assertThat(recordedRequest.getPath()).contains("input=my%20super%20text");
   }
+
+  @Test public void whenRequestSucceedShouldReturn5Results()
+      throws IOException, InterruptedException {
+    String json = AssetReader.readFile(InstrumentationRegistry.getContext(),
+        "places_autocomplete_example.json");
+    server.enqueue(new MockResponse().setBody(json).setResponseCode(200));
+
+    HttpUrl url = server.url("/");
+    GooglePlacesAutoComplete autoComplete = new GooglePlacesAutoComplete(url.toString(), "key");
+
+    // act
+    PlacesAutoComplete.Response<List<PlacesAutoComplete.AutoCompletePrediction>> results =
+        autoComplete.autoComplete("some text");
+
+    // assert
+    List<PlacesAutoComplete.AutoCompletePrediction> predictions = results.getResults();
+    assertThat(predictions).hasSize(5);
+
+    assertThat(predictions.get(0).getDescription()).isEqualTo("Victoria, Australia");
+    assertThat(predictions.get(0).getId()).isEqualTo("0328fb981d48f228012b5d4b7ab0d0f404f439fd");
+    assertThat(predictions.get(1).getDescription()).isEqualTo("Victoria, BC, Canada");
+    assertThat(predictions.get(1).getId()).isEqualTo("d5892cffd777f0252b94ab2651fea7123d2aa34a");
+    assertThat(predictions.get(2).getDescription()).isEqualTo(
+        "Victoria Station, London, United Kingdom");
+    assertThat(predictions.get(2).getId()).isEqualTo("424c895c8d2d24a2a3b68d99c7e6bc782c8683f2");
+    assertThat(predictions.get(3).getDescription()).isEqualTo(
+        "Victoria Coach Station, Buckingham Palace Road, London, United Kingdom");
+    assertThat(predictions.get(3).getId()).isEqualTo("118d77aff7358bda45eb91eedd725e62cae8468a");
+    assertThat(predictions.get(4).getDescription()).isEqualTo("Victorville, CA, United States");
+    assertThat(predictions.get(4).getId()).isEqualTo("dd296d3fde2a539b9279cdd817c01183f69d07a7");
+  }
+
+  @Test public void whenRequestFailsShouldReturnHttpCode() {
+    server.enqueue(new MockResponse().setResponseCode(500));
+
+    HttpUrl url = server.url("/");
+    GooglePlacesAutoComplete autoComplete = new GooglePlacesAutoComplete(url.toString(), "key");
+
+    // act
+    PlacesAutoComplete.Response<List<PlacesAutoComplete.AutoCompletePrediction>> results =
+        autoComplete.autoComplete("some text");
+
+    // assert
+    assertThat(results.getHttpCode()).isEqualTo(500);
+    assertThat(results.getResults()).isNull();
+  }
+
+  @Test public void whenNetworkFailsShouldReturnError() throws IOException {
+    // arrange
+    String json = AssetReader.readFile(InstrumentationRegistry.getContext(),
+        "places_autocomplete_example.json");
+    server.enqueue(new MockResponse().setBody(json)
+        .setResponseCode(200)
+        .setSocketPolicy(SocketPolicy.DISCONNECT_DURING_RESPONSE_BODY));
+
+    HttpUrl url = server.url("/");
+    GooglePlacesAutoComplete autoComplete = new GooglePlacesAutoComplete(url.toString(), "key");
+
+    // act
+    PlacesAutoComplete.Response<List<PlacesAutoComplete.AutoCompletePrediction>> results =
+        autoComplete.autoComplete("some text");
+
+    // assert
+    assertThat(results.getHttpCode()).isEqualTo(200);
+    assertThat(results.getError()).isNotNull();
+  }
 }
