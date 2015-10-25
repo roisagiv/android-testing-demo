@@ -7,6 +7,7 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import com.roisagiv.aroundme.managers.PlacesAutoComplete;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,12 +15,15 @@ import java.util.List;
  */
 public class PlacesListAdapter extends BaseAdapter implements Filterable {
 
+  private final List<PlacesAutoComplete.AutoCompletePrediction> autoCompletePredictions;
+
   /**
    * Instantiates a new Places list adapter.
    *
    * @param placesAutoComplete the places auto complete
    */
   public PlacesListAdapter(PlacesAutoComplete placesAutoComplete) {
+    autoCompletePredictions = new ArrayList<>();
   }
 
   /**
@@ -28,7 +32,7 @@ public class PlacesListAdapter extends BaseAdapter implements Filterable {
    * @return the count
    */
   @Override public int getCount() {
-    return 0;
+    return autoCompletePredictions.size();
   }
 
   /**
@@ -38,7 +42,7 @@ public class PlacesListAdapter extends BaseAdapter implements Filterable {
    * @return the item
    */
   @Override public Object getItem(int position) {
-    return null;
+    return autoCompletePredictions.get(position);
   }
 
   /**
@@ -48,7 +52,7 @@ public class PlacesListAdapter extends BaseAdapter implements Filterable {
    * @return the item id
    */
   @Override public long getItemId(int position) {
-    return 0;
+    return position;
   }
 
   /**
@@ -79,5 +83,7 @@ public class PlacesListAdapter extends BaseAdapter implements Filterable {
    */
   @VisibleForTesting protected void setAutoCompletePredictions(
       List<PlacesAutoComplete.AutoCompletePrediction> predictions) {
+    autoCompletePredictions.clear();
+    autoCompletePredictions.addAll(predictions);
   }
 }
