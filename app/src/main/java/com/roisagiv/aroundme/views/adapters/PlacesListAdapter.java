@@ -16,6 +16,7 @@ import java.util.List;
 public class PlacesListAdapter extends BaseAdapter implements Filterable {
 
   private final List<PlacesAutoComplete.AutoCompletePrediction> autoCompletePredictions;
+  private final PlacesListAdapterFilter filter;
 
   /**
    * Instantiates a new Places list adapter.
@@ -24,6 +25,7 @@ public class PlacesListAdapter extends BaseAdapter implements Filterable {
    */
   public PlacesListAdapter(PlacesAutoComplete placesAutoComplete) {
     autoCompletePredictions = new ArrayList<>();
+    filter = new PlacesListAdapterFilter(placesAutoComplete);
   }
 
   /**
@@ -73,7 +75,7 @@ public class PlacesListAdapter extends BaseAdapter implements Filterable {
    * @return the filter
    */
   @Override public Filter getFilter() {
-    return null;
+    return filter;
   }
 
   /**
@@ -85,5 +87,39 @@ public class PlacesListAdapter extends BaseAdapter implements Filterable {
       List<PlacesAutoComplete.AutoCompletePrediction> predictions) {
     autoCompletePredictions.clear();
     autoCompletePredictions.addAll(predictions);
+  }
+
+  /**
+   * The type Places list adapter filter.
+   */
+  @VisibleForTesting protected class PlacesListAdapterFilter extends Filter {
+
+    /**
+     * Instantiates a new Places list adapter filter.
+     *
+     * @param placesAutoComplete the places auto complete
+     */
+    public PlacesListAdapterFilter(PlacesAutoComplete placesAutoComplete) {
+    }
+
+    /**
+     * Perform filtering filter results.
+     *
+     * @param constraint the constraint
+     * @return the filter results
+     */
+    @Override protected FilterResults performFiltering(CharSequence constraint) {
+      return null;
+    }
+
+    /**
+     * Publish results.
+     *
+     * @param constraint the constraint
+     * @param results the results
+     */
+    @Override protected void publishResults(CharSequence constraint, FilterResults results) {
+
+    }
   }
 }
