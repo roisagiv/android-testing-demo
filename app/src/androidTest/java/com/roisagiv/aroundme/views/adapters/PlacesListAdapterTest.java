@@ -84,6 +84,33 @@ import static org.assertj.core.api.Assertions.assertThat;
     Mockito.verify(mockPlacesAutoComplete).autoComplete(text);
   }
 
+  @Test @UiThreadTest public void performFilteringShouldDoNothingIfTextConstraintNull() {
+    PlacesAutoComplete mockPlacesAutoComplete = Mockito.mock(PlacesAutoComplete.class);
+    PlacesListAdapter adapter = new PlacesListAdapter(mockPlacesAutoComplete);
+
+    // act
+    PlacesListAdapter.PlacesListAdapterFilter filter =
+        (PlacesListAdapter.PlacesListAdapterFilter) adapter.getFilter();
+    filter.performFiltering(null);
+
+    // assert
+    Mockito.verifyZeroInteractions(mockPlacesAutoComplete);
+  }
+
+  @Test @UiThreadTest public void publishResultsShouldClearPredictionsIfResultsAreEmpty() {
+    // arrange
+    PlacesListAdapter adapter = new PlacesListAdapter(null);
+
+    PlacesListAdapter.PlacesListAdapterFilter filter =
+        (PlacesListAdapter.PlacesListAdapterFilter) adapter.getFilter();
+
+    // act
+    filter.publishResults(null, filter.performFiltering(null));
+
+    // assert
+    assertThat(adapter.getCount()).isEqualTo(0);
+  }
+
   /**
    * Publish results should set new predictions in adapter.
    */

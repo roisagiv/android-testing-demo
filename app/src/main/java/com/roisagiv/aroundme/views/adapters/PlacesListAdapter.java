@@ -1,6 +1,7 @@
 package com.roisagiv.aroundme.views.adapters;
 
 import android.support.annotation.VisibleForTesting;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.Filterable;
 import android.widget.TextView;
 import com.roisagiv.aroundme.managers.PlacesAutoComplete;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -134,12 +136,14 @@ public class PlacesListAdapter extends BaseAdapter implements Filterable {
 
       FilterResults results = new FilterResults();
 
-      PlacesAutoComplete.Response<List<PlacesAutoComplete.AutoCompletePrediction>> response =
-          placesAutoComplete.autoComplete(constraint.toString());
+      if (!TextUtils.isEmpty(constraint)) {
+        PlacesAutoComplete.Response<List<PlacesAutoComplete.AutoCompletePrediction>> response =
+            placesAutoComplete.autoComplete(constraint.toString());
 
-      if (response != null) {
-        results.values = response.getResults();
-        results.count = response.getResults().size();
+        if (response != null) {
+          results.values = response.getResults();
+          results.count = response.getResults().size();
+        }
       }
 
       return results;
@@ -154,7 +158,11 @@ public class PlacesListAdapter extends BaseAdapter implements Filterable {
     @Override protected void publishResults(CharSequence constraint, FilterResults results) {
 
       List<PlacesAutoComplete.AutoCompletePrediction> predictions;
-      predictions = (List<PlacesAutoComplete.AutoCompletePrediction>) results.values;
+      if (results != null && results.values != null) {
+        predictions = (List<PlacesAutoComplete.AutoCompletePrediction>) results.values;
+      } else {
+        predictions = Collections.emptyList();
+      }
 
       setAutoCompletePredictions(predictions);
       notifyDataSetChanged();
