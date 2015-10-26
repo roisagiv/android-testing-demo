@@ -1,11 +1,13 @@
 package com.roisagiv.aroundme.views.adapters;
 
 import android.support.annotation.VisibleForTesting;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.TextView;
 import com.roisagiv.aroundme.managers.PlacesAutoComplete;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +68,24 @@ public class PlacesListAdapter extends BaseAdapter implements Filterable {
    * @return the view
    */
   @Override public View getView(int position, View convertView, ViewGroup parent) {
-    return null;
+    PlacesAutoComplete.AutoCompletePrediction prediction = autoCompletePredictions.get(position);
+
+    View view = convertView;
+
+    if (view == null) {
+      view = LayoutInflater.from(parent.getContext())
+          .inflate(android.R.layout.simple_list_item_1, parent, false);
+    }
+
+    ViewHolder viewHolder = (ViewHolder) view.getTag();
+    if (viewHolder == null) {
+      viewHolder = new ViewHolder();
+      viewHolder.textView = (TextView) view.findViewById(android.R.id.text1);
+      view.setTag(viewHolder);
+    }
+
+    viewHolder.textView.setText(prediction.getDescription());
+    return view;
   }
 
   /**
@@ -122,7 +141,7 @@ public class PlacesListAdapter extends BaseAdapter implements Filterable {
         results.values = response.getResults();
         results.count = response.getResults().size();
       }
-      
+
       return results;
     }
 
@@ -140,5 +159,12 @@ public class PlacesListAdapter extends BaseAdapter implements Filterable {
       setAutoCompletePredictions(predictions);
       notifyDataSetChanged();
     }
+  }
+
+  private static class ViewHolder {
+    /**
+     * The Text view.
+     */
+    protected TextView textView;
   }
 }

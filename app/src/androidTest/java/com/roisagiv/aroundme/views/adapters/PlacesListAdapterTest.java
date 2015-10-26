@@ -1,9 +1,14 @@
 package com.roisagiv.aroundme.views.adapters;
 
 import android.database.DataSetObserver;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.annotation.UiThreadTest;
 import android.support.test.rule.UiThreadTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 import com.roisagiv.aroundme.managers.PlacesAutoComplete;
 import java.util.List;
 import org.exparity.stub.random.RandomBuilder;
@@ -141,5 +146,77 @@ import static org.assertj.core.api.Assertions.assertThat;
 
     // assert
     Mockito.verify(mockDataSetObserver).onChanged();
+  }
+
+  /**
+   * Get view should return simple list item 1 layout.
+   */
+  @Test @UiThreadTest public void getViewShouldReturnSimpleListItem1Layout() {
+    List<PlacesAutoComplete.AutoCompletePrediction> predictions =
+        RandomBuilder.aRandomListOf(PlacesAutoComplete.AutoCompletePrediction.class);
+
+    PlacesListAdapter adapter = new PlacesListAdapter(null);
+    adapter.setAutoCompletePredictions(predictions);
+
+    View view = adapter.getView(1, null, new FrameLayout(InstrumentationRegistry.getContext()));
+
+    assertThat(view.findViewById(android.R.id.text1)).isNotNull();
+  }
+
+  /**
+   * Get view should set prediction in text view.
+   */
+  @Test @UiThreadTest public void getViewShouldSetPredictionInTextView() {
+    List<PlacesAutoComplete.AutoCompletePrediction> predictions =
+        RandomBuilder.aRandomListOf(PlacesAutoComplete.AutoCompletePrediction.class, 4, 4);
+
+    PlacesListAdapter adapter = new PlacesListAdapter(null);
+    adapter.setAutoCompletePredictions(predictions);
+
+    View view;
+    TextView textView;
+
+    view = adapter.getView(0, null, new FrameLayout(InstrumentationRegistry.getContext()));
+    textView = (TextView) view.findViewById(android.R.id.text1);
+    assertThat(textView.getText()).isEqualTo(predictions.get(0).getDescription());
+
+    view = adapter.getView(1, null, new FrameLayout(InstrumentationRegistry.getContext()));
+    textView = (TextView) view.findViewById(android.R.id.text1);
+    assertThat(textView.getText()).isEqualTo(predictions.get(1).getDescription());
+
+    view = adapter.getView(2, null, new FrameLayout(InstrumentationRegistry.getContext()));
+    textView = (TextView) view.findViewById(android.R.id.text1);
+    assertThat(textView.getText()).isEqualTo(predictions.get(2).getDescription());
+
+    view = adapter.getView(3, null, new FrameLayout(InstrumentationRegistry.getContext()));
+    textView = (TextView) view.findViewById(android.R.id.text1);
+    assertThat(textView.getText()).isEqualTo(predictions.get(3).getDescription());
+  }
+
+  /**
+   * Get view should recycle views.
+   */
+  @Test @UiThreadTest public void getViewShouldRecycleViews() {
+    // arrange
+    List<PlacesAutoComplete.AutoCompletePrediction> predictions =
+        RandomBuilder.aRandomListOf(PlacesAutoComplete.AutoCompletePrediction.class);
+
+    PlacesListAdapter adapter = new PlacesListAdapter(null);
+    adapter.setAutoCompletePredictions(predictions);
+
+    View recyclableView = LayoutInflater.from(InstrumentationRegistry.getContext())
+        .inflate(android.R.layout.simple_list_item_1, null);
+
+    // make sure our text is different
+    TextView textView = (TextView) recyclableView.findViewById(android.R.id.text1);
+    textView.setText(android.R.string.untitled);
+
+    // act
+    View view =
+        adapter.getView(1, recyclableView, new FrameLayout(InstrumentationRegistry.getContext()));
+
+    // assert
+    assertThat(view).isEqualTo(recyclableView);
+    assertThat(textView.getText()).isEqualTo(predictions.get(1).getDescription());
   }
 }
