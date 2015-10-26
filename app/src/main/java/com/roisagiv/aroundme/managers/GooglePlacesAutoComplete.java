@@ -72,6 +72,39 @@ public class GooglePlacesAutoComplete implements PlacesAutoComplete {
   }
 
   @Override public Response<PredictionDetails> predictionDetails(String id) {
-    return null;
+    OkHttpClient client = new OkHttpClient();
+
+    HttpUrl.Builder httpBuilder = HttpUrl.get(URI.create(baseUrl)).newBuilder();
+    httpBuilder.encodedPath("/maps/api/place/details/json")
+        .addQueryParameter("placeid", id)
+        .addQueryParameter("key", apiKey);
+
+    Request.Builder requestBuilder = new Request.Builder();
+    requestBuilder.url(httpBuilder.build());
+
+    Response<PredictionDetails> results = new Response<>();
+    Call call = client.newCall(requestBuilder.build());
+    try {
+
+      com.squareup.okhttp.Response response = call.execute();
+      results.setHttpCode(response.code());
+
+      JSONObject json = new JSONObject(response.body().string());
+      JSONObject resultsAsJson = json.getJSONObject("result");
+      PredictionDetails prediction = new PredictionDetails();
+
+      prediction.setId(resultsAsJson.getString("id"));
+      prediction.setDescription(resultsAsJson.getString("name"));
+      prediction.setLatitude(
+          resultsAsJson.getJSONObject("geometry").getJSONObject("location").getDouble("lat"));
+      prediction.setLongitude(
+          resultsAsJson.getJSONObject("geometry").getJSONObject("location").getDouble("lng"));
+
+      results.setResults(prediction);
+    } catch (IOException | JSONException e) {
+      results.setError(e);
+    }
+
+    return results;
   }
 }
