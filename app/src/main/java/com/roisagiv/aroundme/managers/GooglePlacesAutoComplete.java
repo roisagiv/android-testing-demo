@@ -64,12 +64,14 @@ public class GooglePlacesAutoComplete implements PlacesAutoComplete {
       }
 
       results.setResults(predictions);
-    } catch (IOException e) {
-      results.setError(e);
-    } catch (JSONException e) {
+    } catch (IOException | JSONException e) {
       results.setError(e);
     }
 
     return results;
+  }
+
+  @Override public Response<PredictionDetails> predictionDetails(String id) {
+    return null;
   }
 }
