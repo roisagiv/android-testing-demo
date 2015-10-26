@@ -94,12 +94,15 @@ public class PlacesListAdapter extends BaseAdapter implements Filterable {
    */
   @VisibleForTesting protected class PlacesListAdapterFilter extends Filter {
 
+    private final PlacesAutoComplete placesAutoComplete;
+
     /**
      * Instantiates a new Places list adapter filter.
      *
      * @param placesAutoComplete the places auto complete
      */
     public PlacesListAdapterFilter(PlacesAutoComplete placesAutoComplete) {
+      this.placesAutoComplete = placesAutoComplete;
     }
 
     /**
@@ -109,7 +112,18 @@ public class PlacesListAdapter extends BaseAdapter implements Filterable {
      * @return the filter results
      */
     @Override protected FilterResults performFiltering(CharSequence constraint) {
-      return null;
+
+      FilterResults results = new FilterResults();
+
+      PlacesAutoComplete.Response<List<PlacesAutoComplete.AutoCompletePrediction>> response =
+          placesAutoComplete.autoComplete(constraint.toString());
+
+      if (response != null) {
+        results.values = response.getResults();
+        results.count = response.getResults().size();
+      }
+      
+      return results;
     }
 
     /**
@@ -120,6 +134,11 @@ public class PlacesListAdapter extends BaseAdapter implements Filterable {
      */
     @Override protected void publishResults(CharSequence constraint, FilterResults results) {
 
+      List<PlacesAutoComplete.AutoCompletePrediction> predictions;
+      predictions = (List<PlacesAutoComplete.AutoCompletePrediction>) results.values;
+
+      setAutoCompletePredictions(predictions);
+      notifyDataSetChanged();
     }
   }
 }
