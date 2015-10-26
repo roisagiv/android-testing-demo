@@ -42,7 +42,7 @@ public class GooglePlacesAutoComplete implements PlacesAutoComplete {
     Request.Builder requestBuilder = new Request.Builder();
     requestBuilder.url(httpBuilder.build());
 
-    Response<List<AutoCompletePrediction>> results = new Response<>();
+    Response<List<AutoCompletePrediction>> results = new Response<List<AutoCompletePrediction>>();
     Call call = client.newCall(requestBuilder.build());
     try {
 
@@ -51,7 +51,8 @@ public class GooglePlacesAutoComplete implements PlacesAutoComplete {
 
       JSONObject json = new JSONObject(response.body().string());
       JSONArray predictionsAsJson = json.getJSONArray("predictions");
-      List<AutoCompletePrediction> predictions = new ArrayList<>(predictionsAsJson.length());
+      List<AutoCompletePrediction> predictions =
+          new ArrayList<AutoCompletePrediction>(predictionsAsJson.length());
 
       for (int i = 0; i < predictionsAsJson.length(); i++) {
         JSONObject predictionAsJson = predictionsAsJson.getJSONObject(i);
@@ -63,7 +64,9 @@ public class GooglePlacesAutoComplete implements PlacesAutoComplete {
       }
 
       results.setResults(predictions);
-    } catch (IOException | JSONException e) {
+    } catch (IOException e) {
+      results.setError(e);
+    } catch (JSONException e) {
       results.setError(e);
     }
 
