@@ -10,3 +10,4 @@
 #Tue Oct 13 20:14:42 IDT 2015
 sdk.dir=/usr/local/opt/android-sdk
 google_places_api_key=YOUR_KEY
+google_maps_for_android=YOUR_KEY

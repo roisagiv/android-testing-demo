@@ -25,8 +25,11 @@ android {
       if (rootProject.file('local.properties').exists()) {
         def props = new Properties()
         props.load(new FileInputStream(rootProject.file('local.properties')))
+
         buildConfigField "String", "GOOGLE_PLACES_API_KEY",
             "\"" + props['google_places_api_key'] + "\""
+
+        resValue "string", "google_maps_android_key", props['google_maps_for_android']
       }
     }
     release {
@@ -44,6 +47,7 @@ android {
     exclude 'LICENSE.txt'
     exclude 'NOTICE'
     exclude 'asm-license.txt'
+    exclude 'META-INF/LICENSE.txt'
   }
 
   signingConfigs {
@@ -56,10 +60,13 @@ android {
 dependencies {
   compile fileTree(include: ['*.jar'], dir: 'libs')
   testCompile 'junit:junit:4.12'
+
   compile 'com.android.support:appcompat-v7:23.0.1'
   compile 'com.android.support:design:23.0.1'
   compile 'com.squareup.okhttp:okhttp:2.5.0'
-  androidTestCompile 'com.android.support.test:runner:0.4'
+  compile 'com.google.android.gms:play-services-maps:8.1.0'
+
+  androidTestCompile 'com.android.support.test:runner:0.4.1'
   androidTestCompile 'com.squareup.okhttp:mockwebserver:2.5.0'
   androidTestCompile 'org.assertj:assertj-core:1.7.1'
   androidTestCompile 'com.crittercism.dexmaker:dexmaker-mockito:1.4'
@@ -68,4 +75,15 @@ dependencies {
   androidTestCompile 'org.mockito:mockito-core:1.10.19'
   androidTestCompile 'com.android.support.test:rules:0.4'
   androidTestCompile 'org.exparity:exparity-stub:1.+'
+
+  androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.1'
+  // IdlingResource is used in the app under test
+  androidTestCompile 'com.android.support.test.espresso:espresso-idling-resource:2.2.1'
+
+  // For CountingIdlingResource:
+  androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2.1') {
+    exclude group: 'com.android.support', module: 'appcompat'
+    exclude group: 'com.android.support', module: 'support-v4'
+    exclude module: 'recyclerview-v7'
+  }
 }

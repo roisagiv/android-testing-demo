@@ -1,9 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
   <application>
     <activity android:name="com.roisagiv.aroundme.PlacesAutoCompleteDemoActivity"
         >
     </activity>
+
+    <activity android:name="com.roisagiv.aroundme.GoogleMapDemoActivity"
+        />
   </application>
 </manifest>
+
 
 
