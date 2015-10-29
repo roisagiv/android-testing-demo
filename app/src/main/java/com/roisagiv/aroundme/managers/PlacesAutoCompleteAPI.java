@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * The interface Places auto complete.
  */
-public interface PlacesAutoComplete {
+public interface PlacesAutoCompleteAPI {
 
   /**
    * Auto complete list.
@@ -13,7 +13,7 @@ public interface PlacesAutoComplete {
    * @param text the text
    * @return the list
    */
-  Response<List<AutoCompletePrediction>> autoComplete(String text);
+  NetworkResponse<List<AutoCompletePrediction>> autoComplete(String text);
 
   /**
    * Prediction details response.
@@ -21,72 +21,7 @@ public interface PlacesAutoComplete {
    * @param id the id
    * @return the response
    */
-  Response<PredictionDetails> predictionDetails(String id);
-
-  /**
-   * The type Response.
-   *
-   * @param <T> the type parameter
-   */
-  class Response<T> {
-    private T results;
-    private int httpCode;
-    private Throwable error;
-
-    /**
-     * Gets results.
-     *
-     * @return the results
-     */
-    public T getResults() {
-      return results;
-    }
-
-    /**
-     * Sets results.
-     *
-     * @param results the results
-     */
-    public void setResults(T results) {
-      this.results = results;
-    }
-
-    /**
-     * Gets http code.
-     *
-     * @return the http code
-     */
-    public int getHttpCode() {
-      return httpCode;
-    }
-
-    /**
-     * Sets http code.
-     *
-     * @param httpCode the http code
-     */
-    public void setHttpCode(int httpCode) {
-      this.httpCode = httpCode;
-    }
-
-    /**
-     * Gets error.
-     *
-     * @return the error
-     */
-    public Throwable getError() {
-      return error;
-    }
-
-    /**
-     * Sets error.
-     *
-     * @param error the error
-     */
-    public void setError(Throwable error) {
-      this.error = error;
-    }
-  }
+  NetworkResponse<PredictionDetails> predictionDetails(String id);
 
   /**
    * The type Auto complete prediction.

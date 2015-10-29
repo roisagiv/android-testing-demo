@@ -9,7 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
-import com.roisagiv.aroundme.managers.PlacesAutoComplete;
+import com.roisagiv.aroundme.managers.NetworkResponse;
+import com.roisagiv.aroundme.managers.PlacesAutoCompleteAPI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -19,17 +20,17 @@ import java.util.List;
  */
 public class PlacesListAdapter extends BaseAdapter implements Filterable {
 
-  private final List<PlacesAutoComplete.AutoCompletePrediction> autoCompletePredictions;
+  private final List<PlacesAutoCompleteAPI.AutoCompletePrediction> autoCompletePredictions;
   private final PlacesListAdapterFilter filter;
 
   /**
    * Instantiates a new Places list adapter.
    *
-   * @param placesAutoComplete the places auto complete
+   * @param placesAutoCompleteAPI the places auto complete
    */
-  public PlacesListAdapter(PlacesAutoComplete placesAutoComplete) {
+  public PlacesListAdapter(PlacesAutoCompleteAPI placesAutoCompleteAPI) {
     autoCompletePredictions = new ArrayList<>();
-    filter = new PlacesListAdapterFilter(placesAutoComplete);
+    filter = new PlacesListAdapterFilter(placesAutoCompleteAPI);
   }
 
   /**
@@ -70,7 +71,7 @@ public class PlacesListAdapter extends BaseAdapter implements Filterable {
    * @return the view
    */
   @Override public View getView(int position, View convertView, ViewGroup parent) {
-    PlacesAutoComplete.AutoCompletePrediction prediction = autoCompletePredictions.get(position);
+    PlacesAutoCompleteAPI.AutoCompletePrediction prediction = autoCompletePredictions.get(position);
 
     View view = convertView;
 
@@ -105,7 +106,7 @@ public class PlacesListAdapter extends BaseAdapter implements Filterable {
    * @param predictions the predictions
    */
   @VisibleForTesting protected void setAutoCompletePredictions(
-      List<PlacesAutoComplete.AutoCompletePrediction> predictions) {
+      List<PlacesAutoCompleteAPI.AutoCompletePrediction> predictions) {
     autoCompletePredictions.clear();
     autoCompletePredictions.addAll(predictions);
   }
@@ -115,15 +116,15 @@ public class PlacesListAdapter extends BaseAdapter implements Filterable {
    */
   @VisibleForTesting protected class PlacesListAdapterFilter extends Filter {
 
-    private final PlacesAutoComplete placesAutoComplete;
+    private final PlacesAutoCompleteAPI placesAutoCompleteAPI;
 
     /**
      * Instantiates a new Places list adapter filter.
      *
-     * @param placesAutoComplete the places auto complete
+     * @param placesAutoCompleteAPI the places auto complete
      */
-    public PlacesListAdapterFilter(PlacesAutoComplete placesAutoComplete) {
-      this.placesAutoComplete = placesAutoComplete;
+    public PlacesListAdapterFilter(PlacesAutoCompleteAPI placesAutoCompleteAPI) {
+      this.placesAutoCompleteAPI = placesAutoCompleteAPI;
     }
 
     /**
@@ -137,8 +138,8 @@ public class PlacesListAdapter extends BaseAdapter implements Filterable {
       FilterResults results = new FilterResults();
 
       if (!TextUtils.isEmpty(constraint)) {
-        PlacesAutoComplete.Response<List<PlacesAutoComplete.AutoCompletePrediction>> response =
-            placesAutoComplete.autoComplete(constraint.toString());
+        NetworkResponse<List<PlacesAutoCompleteAPI.AutoCompletePrediction>> response =
+            placesAutoCompleteAPI.autoComplete(constraint.toString());
 
         if (response != null) {
           results.values = response.getResults();
@@ -157,9 +158,9 @@ public class PlacesListAdapter extends BaseAdapter implements Filterable {
      */
     @Override protected void publishResults(CharSequence constraint, FilterResults results) {
 
-      List<PlacesAutoComplete.AutoCompletePrediction> predictions;
+      List<PlacesAutoCompleteAPI.AutoCompletePrediction> predictions;
       if (results != null && results.values != null) {
-        predictions = (List<PlacesAutoComplete.AutoCompletePrediction>) results.values;
+        predictions = (List<PlacesAutoCompleteAPI.AutoCompletePrediction>) results.values;
       } else {
         predictions = Collections.emptyList();
       }

@@ -15,12 +15,12 @@ import org.json.JSONObject;
 /**
  * The type Google places auto complete.
  */
-public class GooglePlacesAutoComplete implements PlacesAutoComplete {
+public class GooglePlacesAutoCompleteAPI implements PlacesAutoCompleteAPI {
 
   private final String baseUrl;
   private final String apiKey;
 
-  public GooglePlacesAutoComplete(String baseUrl, String apiKey) {
+  public GooglePlacesAutoCompleteAPI(String baseUrl, String apiKey) {
     this.baseUrl = baseUrl;
     this.apiKey = apiKey;
   }
@@ -31,7 +31,7 @@ public class GooglePlacesAutoComplete implements PlacesAutoComplete {
    * @param text the text
    * @return the list
    */
-  @Override public Response<List<AutoCompletePrediction>> autoComplete(String text) {
+  @Override public NetworkResponse<List<AutoCompletePrediction>> autoComplete(String text) {
     OkHttpClient client = new OkHttpClient();
 
     HttpUrl.Builder httpBuilder = HttpUrl.get(URI.create(baseUrl)).newBuilder();
@@ -42,7 +42,8 @@ public class GooglePlacesAutoComplete implements PlacesAutoComplete {
     Request.Builder requestBuilder = new Request.Builder();
     requestBuilder.url(httpBuilder.build());
 
-    Response<List<AutoCompletePrediction>> results = new Response<List<AutoCompletePrediction>>();
+    NetworkResponse<List<AutoCompletePrediction>>
+        results = new NetworkResponse<List<AutoCompletePrediction>>();
     Call call = client.newCall(requestBuilder.build());
     try {
 
@@ -71,7 +72,7 @@ public class GooglePlacesAutoComplete implements PlacesAutoComplete {
     return results;
   }
 
-  @Override public Response<PredictionDetails> predictionDetails(String id) {
+  @Override public NetworkResponse<PredictionDetails> predictionDetails(String id) {
     OkHttpClient client = new OkHttpClient();
 
     HttpUrl.Builder httpBuilder = HttpUrl.get(URI.create(baseUrl)).newBuilder();
@@ -82,7 +83,7 @@ public class GooglePlacesAutoComplete implements PlacesAutoComplete {
     Request.Builder requestBuilder = new Request.Builder();
     requestBuilder.url(httpBuilder.build());
 
-    Response<PredictionDetails> results = new Response<>();
+    NetworkResponse<PredictionDetails> results = new NetworkResponse<>();
     Call call = client.newCall(requestBuilder.build());
     try {
 

@@ -9,7 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import com.roisagiv.aroundme.managers.PlacesAutoComplete;
+import com.roisagiv.aroundme.managers.NetworkResponse;
+import com.roisagiv.aroundme.managers.PlacesAutoCompleteAPI;
 import java.util.List;
 import org.exparity.stub.random.RandomBuilder;
 import org.junit.Rule;
@@ -33,8 +34,8 @@ import static org.assertj.core.api.Assertions.assertThat;
    * Gets count should return number of places.
    */
   @Test @UiThreadTest public void getCountShouldReturnNumberOfPlaces() {
-    List<PlacesAutoComplete.AutoCompletePrediction> predictions =
-        RandomBuilder.aRandomListOf(PlacesAutoComplete.AutoCompletePrediction.class);
+    List<PlacesAutoCompleteAPI.AutoCompletePrediction> predictions =
+        RandomBuilder.aRandomListOf(PlacesAutoCompleteAPI.AutoCompletePrediction.class);
 
     PlacesListAdapter adapter = new PlacesListAdapter(null);
     adapter.setAutoCompletePredictions(predictions);
@@ -46,8 +47,8 @@ import static org.assertj.core.api.Assertions.assertThat;
    * Gets item should return prediction at position.
    */
   @Test @UiThreadTest public void getItemShouldReturnPredictionAtPosition() {
-    List<PlacesAutoComplete.AutoCompletePrediction> predictions =
-        RandomBuilder.aRandomListOf(PlacesAutoComplete.AutoCompletePrediction.class);
+    List<PlacesAutoCompleteAPI.AutoCompletePrediction> predictions =
+        RandomBuilder.aRandomListOf(PlacesAutoCompleteAPI.AutoCompletePrediction.class);
 
     PlacesListAdapter adapter = new PlacesListAdapter(null);
     adapter.setAutoCompletePredictions(predictions);
@@ -71,8 +72,8 @@ import static org.assertj.core.api.Assertions.assertThat;
    */
   @Test @UiThreadTest public void performFilteringShouldCallPlacesAutoComplete() {
     // arrange
-    PlacesAutoComplete mockPlacesAutoComplete = Mockito.mock(PlacesAutoComplete.class);
-    PlacesListAdapter adapter = new PlacesListAdapter(mockPlacesAutoComplete);
+    PlacesAutoCompleteAPI mockPlacesAutoCompleteAPI = Mockito.mock(PlacesAutoCompleteAPI.class);
+    PlacesListAdapter adapter = new PlacesListAdapter(mockPlacesAutoCompleteAPI);
     String text = "some text";
 
     // act
@@ -81,12 +82,12 @@ import static org.assertj.core.api.Assertions.assertThat;
     filter.performFiltering(text);
 
     // assert
-    Mockito.verify(mockPlacesAutoComplete).autoComplete(text);
+    Mockito.verify(mockPlacesAutoCompleteAPI).autoComplete(text);
   }
 
   @Test @UiThreadTest public void performFilteringShouldDoNothingIfTextConstraintNull() {
-    PlacesAutoComplete mockPlacesAutoComplete = Mockito.mock(PlacesAutoComplete.class);
-    PlacesListAdapter adapter = new PlacesListAdapter(mockPlacesAutoComplete);
+    PlacesAutoCompleteAPI mockPlacesAutoCompleteAPI = Mockito.mock(PlacesAutoCompleteAPI.class);
+    PlacesListAdapter adapter = new PlacesListAdapter(mockPlacesAutoCompleteAPI);
 
     // act
     PlacesListAdapter.PlacesListAdapterFilter filter =
@@ -94,7 +95,7 @@ import static org.assertj.core.api.Assertions.assertThat;
     filter.performFiltering(null);
 
     // assert
-    Mockito.verifyZeroInteractions(mockPlacesAutoComplete);
+    Mockito.verifyZeroInteractions(mockPlacesAutoCompleteAPI);
   }
 
   @Test @UiThreadTest public void publishResultsShouldClearPredictionsIfResultsAreEmpty() {
@@ -118,18 +119,18 @@ import static org.assertj.core.api.Assertions.assertThat;
     // arrange
     String text = "some text";
 
-    List<PlacesAutoComplete.AutoCompletePrediction> predictions =
-        RandomBuilder.aRandomListOf(PlacesAutoComplete.AutoCompletePrediction.class);
-    PlacesAutoComplete.Response<List<PlacesAutoComplete.AutoCompletePrediction>> response =
-        new PlacesAutoComplete.Response<>();
+    List<PlacesAutoCompleteAPI.AutoCompletePrediction> predictions =
+        RandomBuilder.aRandomListOf(PlacesAutoCompleteAPI.AutoCompletePrediction.class);
+    NetworkResponse<List<PlacesAutoCompleteAPI.AutoCompletePrediction>> response =
+        new NetworkResponse<>();
     response.setResults(predictions);
     response.setHttpCode(200);
 
-    PlacesAutoComplete mockPlacesAutoComplete = Mockito.mock(PlacesAutoComplete.class);
-    Mockito.when(mockPlacesAutoComplete.autoComplete(text)).thenReturn(response);
+    PlacesAutoCompleteAPI mockPlacesAutoCompleteAPI = Mockito.mock(PlacesAutoCompleteAPI.class);
+    Mockito.when(mockPlacesAutoCompleteAPI.autoComplete(text)).thenReturn(response);
 
     // act
-    PlacesListAdapter adapter = new PlacesListAdapter(mockPlacesAutoComplete);
+    PlacesListAdapter adapter = new PlacesListAdapter(mockPlacesAutoCompleteAPI);
     // make sure we are empty
     assertThat(adapter.getCount()).isEqualTo(0);
 
@@ -149,19 +150,19 @@ import static org.assertj.core.api.Assertions.assertThat;
     // arrange
     String text = "some text";
 
-    List<PlacesAutoComplete.AutoCompletePrediction> predictions =
-        RandomBuilder.aRandomListOf(PlacesAutoComplete.AutoCompletePrediction.class);
-    PlacesAutoComplete.Response<List<PlacesAutoComplete.AutoCompletePrediction>> response =
-        new PlacesAutoComplete.Response<>();
+    List<PlacesAutoCompleteAPI.AutoCompletePrediction> predictions =
+        RandomBuilder.aRandomListOf(PlacesAutoCompleteAPI.AutoCompletePrediction.class);
+    NetworkResponse<List<PlacesAutoCompleteAPI.AutoCompletePrediction>> response =
+        new NetworkResponse<>();
     response.setResults(predictions);
     response.setHttpCode(200);
 
-    PlacesAutoComplete mockPlacesAutoComplete = Mockito.mock(PlacesAutoComplete.class);
+    PlacesAutoCompleteAPI mockPlacesAutoCompleteAPI = Mockito.mock(PlacesAutoCompleteAPI.class);
     DataSetObserver mockDataSetObserver = Mockito.mock(DataSetObserver.class);
-    Mockito.when(mockPlacesAutoComplete.autoComplete(text)).thenReturn(response);
+    Mockito.when(mockPlacesAutoCompleteAPI.autoComplete(text)).thenReturn(response);
 
     // act
-    PlacesListAdapter adapter = new PlacesListAdapter(mockPlacesAutoComplete);
+    PlacesListAdapter adapter = new PlacesListAdapter(mockPlacesAutoCompleteAPI);
     adapter.registerDataSetObserver(mockDataSetObserver);
 
     // make sure we are empty
@@ -179,8 +180,8 @@ import static org.assertj.core.api.Assertions.assertThat;
    * Get view should return simple list item 1 layout.
    */
   @Test @UiThreadTest public void getViewShouldReturnSimpleListItem1Layout() {
-    List<PlacesAutoComplete.AutoCompletePrediction> predictions =
-        RandomBuilder.aRandomListOf(PlacesAutoComplete.AutoCompletePrediction.class);
+    List<PlacesAutoCompleteAPI.AutoCompletePrediction> predictions =
+        RandomBuilder.aRandomListOf(PlacesAutoCompleteAPI.AutoCompletePrediction.class);
 
     PlacesListAdapter adapter = new PlacesListAdapter(null);
     adapter.setAutoCompletePredictions(predictions);
@@ -194,8 +195,8 @@ import static org.assertj.core.api.Assertions.assertThat;
    * Get view should set prediction in text view.
    */
   @Test @UiThreadTest public void getViewShouldSetPredictionInTextView() {
-    List<PlacesAutoComplete.AutoCompletePrediction> predictions =
-        RandomBuilder.aRandomListOf(PlacesAutoComplete.AutoCompletePrediction.class, 4, 4);
+    List<PlacesAutoCompleteAPI.AutoCompletePrediction> predictions =
+        RandomBuilder.aRandomListOf(PlacesAutoCompleteAPI.AutoCompletePrediction.class, 4, 4);
 
     PlacesListAdapter adapter = new PlacesListAdapter(null);
     adapter.setAutoCompletePredictions(predictions);
@@ -225,8 +226,8 @@ import static org.assertj.core.api.Assertions.assertThat;
    */
   @Test @UiThreadTest public void getViewShouldRecycleViews() {
     // arrange
-    List<PlacesAutoComplete.AutoCompletePrediction> predictions =
-        RandomBuilder.aRandomListOf(PlacesAutoComplete.AutoCompletePrediction.class);
+    List<PlacesAutoCompleteAPI.AutoCompletePrediction> predictions =
+        RandomBuilder.aRandomListOf(PlacesAutoCompleteAPI.AutoCompletePrediction.class);
 
     PlacesListAdapter adapter = new PlacesListAdapter(null);
     adapter.setAutoCompletePredictions(predictions);

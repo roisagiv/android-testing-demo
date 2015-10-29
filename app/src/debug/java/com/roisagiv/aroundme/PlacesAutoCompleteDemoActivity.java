@@ -3,7 +3,7 @@ package com.roisagiv.aroundme;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.AutoCompleteTextView;
-import com.roisagiv.aroundme.managers.GooglePlacesAutoComplete;
+import com.roisagiv.aroundme.managers.GooglePlacesAutoCompleteAPI;
 import com.roisagiv.aroundme.views.adapters.PlacesListAdapter;
 
 public class PlacesAutoCompleteDemoActivity extends AppCompatActivity {
@@ -16,7 +16,7 @@ public class PlacesAutoCompleteDemoActivity extends AppCompatActivity {
         (AutoCompleteTextView) findViewById(R.id.autocomplete_demo);
 
     PlacesListAdapter adapter = new PlacesListAdapter(
-        new GooglePlacesAutoComplete("https://maps.googleapis.com",
+        new GooglePlacesAutoCompleteAPI("https://maps.googleapis.com",
             BuildConfig.GOOGLE_PLACES_API_KEY));
 
     autoCompleteTextView.setAdapter(adapter);
