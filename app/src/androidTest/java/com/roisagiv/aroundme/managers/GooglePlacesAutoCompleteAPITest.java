@@ -39,7 +39,8 @@ import static org.assertj.core.api.Assertions.assertThat;
       // arrange
       server.enqueue(new MockResponse());
       HttpUrl url = server.url("/");
-      GooglePlacesAutoCompleteAPI autoComplete = new GooglePlacesAutoCompleteAPI(url.toString(), "");
+      GooglePlacesAutoCompleteAPI autoComplete =
+          new GooglePlacesAutoCompleteAPI(url.toString(), "");
 
       // act
       autoComplete.autoComplete("never mind");
@@ -59,8 +60,8 @@ import static org.assertj.core.api.Assertions.assertThat;
       server.enqueue(new MockResponse());
       HttpUrl url = server.url("/");
       String apiKey = "my api key";
-      GooglePlacesAutoCompleteAPI
-          autoComplete = new GooglePlacesAutoCompleteAPI(url.toString(), apiKey);
+      GooglePlacesAutoCompleteAPI autoComplete =
+          new GooglePlacesAutoCompleteAPI(url.toString(), apiKey);
 
       // act
       autoComplete.autoComplete("never mind");
@@ -80,8 +81,8 @@ import static org.assertj.core.api.Assertions.assertThat;
       server.enqueue(new MockResponse());
       HttpUrl url = server.url("/");
       String text = "my super text";
-      GooglePlacesAutoCompleteAPI
-          autoComplete = new GooglePlacesAutoCompleteAPI(url.toString(), "key");
+      GooglePlacesAutoCompleteAPI autoComplete =
+          new GooglePlacesAutoCompleteAPI(url.toString(), "key");
 
       // act
       autoComplete.autoComplete(text);
@@ -98,8 +99,8 @@ import static org.assertj.core.api.Assertions.assertThat;
       server.enqueue(new MockResponse().setBody(json).setResponseCode(200));
 
       HttpUrl url = server.url("/");
-      GooglePlacesAutoCompleteAPI
-          autoComplete = new GooglePlacesAutoCompleteAPI(url.toString(), "key");
+      GooglePlacesAutoCompleteAPI autoComplete =
+          new GooglePlacesAutoCompleteAPI(url.toString(), "key");
 
       // act
       NetworkResponse<List<PlacesAutoCompleteAPI.AutoCompletePrediction>> results =
@@ -110,25 +111,25 @@ import static org.assertj.core.api.Assertions.assertThat;
       assertThat(predictions).hasSize(5);
 
       assertThat(predictions.get(0).getDescription()).isEqualTo("Victoria, Australia");
-      assertThat(predictions.get(0).getId()).isEqualTo("0328fb981d48f228012b5d4b7ab0d0f404f439fd");
+      assertThat(predictions.get(0).getId()).isEqualTo("ChIJT5UYfksx1GoRNJWCvuL8Tlo");
       assertThat(predictions.get(1).getDescription()).isEqualTo("Victoria, BC, Canada");
-      assertThat(predictions.get(1).getId()).isEqualTo("d5892cffd777f0252b94ab2651fea7123d2aa34a");
+      assertThat(predictions.get(1).getId()).isEqualTo("ChIJcWGw3Ytzj1QR7Ui7HnTz6Dg");
       assertThat(predictions.get(2).getDescription()).isEqualTo(
           "Victoria Station, London, United Kingdom");
-      assertThat(predictions.get(2).getId()).isEqualTo("424c895c8d2d24a2a3b68d99c7e6bc782c8683f2");
+      assertThat(predictions.get(2).getId()).isEqualTo("ChIJDdMfySEFdkgRVkEX9DXbVvU");
       assertThat(predictions.get(3).getDescription()).isEqualTo(
           "Victoria Coach Station, Buckingham Palace Road, London, United Kingdom");
-      assertThat(predictions.get(3).getId()).isEqualTo("118d77aff7358bda45eb91eedd725e62cae8468a");
+      assertThat(predictions.get(3).getId()).isEqualTo("ChIJrxpS6hgFdkgRhUwkBy1TEGU");
       assertThat(predictions.get(4).getDescription()).isEqualTo("Victorville, CA, United States");
-      assertThat(predictions.get(4).getId()).isEqualTo("dd296d3fde2a539b9279cdd817c01183f69d07a7");
+      assertThat(predictions.get(4).getId()).isEqualTo("ChIJedLdY1pkw4ARdjT0JVkRlQ0");
     }
 
     @Test public void whenRequestFailsShouldReturnHttpCode() {
       server.enqueue(new MockResponse().setResponseCode(500));
 
       HttpUrl url = server.url("/");
-      GooglePlacesAutoCompleteAPI
-          autoComplete = new GooglePlacesAutoCompleteAPI(url.toString(), "key");
+      GooglePlacesAutoCompleteAPI autoComplete =
+          new GooglePlacesAutoCompleteAPI(url.toString(), "key");
 
       // act
       NetworkResponse<List<PlacesAutoCompleteAPI.AutoCompletePrediction>> results =
@@ -148,8 +149,8 @@ import static org.assertj.core.api.Assertions.assertThat;
           .setSocketPolicy(SocketPolicy.DISCONNECT_DURING_RESPONSE_BODY));
 
       HttpUrl url = server.url("/");
-      GooglePlacesAutoCompleteAPI
-          autoComplete = new GooglePlacesAutoCompleteAPI(url.toString(), "key");
+      GooglePlacesAutoCompleteAPI autoComplete =
+          new GooglePlacesAutoCompleteAPI(url.toString(), "key");
 
       // act
       NetworkResponse<List<PlacesAutoCompleteAPI.AutoCompletePrediction>> results =
@@ -162,6 +163,7 @@ import static org.assertj.core.api.Assertions.assertThat;
   }
 
   @RunWith(AndroidJUnit4.class) public static class PredictionDetailsTest {
+
     /**
      * The Server.
      */
@@ -177,7 +179,8 @@ import static org.assertj.core.api.Assertions.assertThat;
       // arrange
       server.enqueue(new MockResponse());
       HttpUrl url = server.url("/");
-      GooglePlacesAutoCompleteAPI autoComplete = new GooglePlacesAutoCompleteAPI(url.toString(), "");
+      GooglePlacesAutoCompleteAPI autoComplete =
+          new GooglePlacesAutoCompleteAPI(url.toString(), "");
 
       // act
       autoComplete.predictionDetails("never mind");
@@ -197,8 +200,8 @@ import static org.assertj.core.api.Assertions.assertThat;
       server.enqueue(new MockResponse());
       HttpUrl url = server.url("/");
       String apiKey = "my api key";
-      GooglePlacesAutoCompleteAPI
-          autoComplete = new GooglePlacesAutoCompleteAPI(url.toString(), apiKey);
+      GooglePlacesAutoCompleteAPI autoComplete =
+          new GooglePlacesAutoCompleteAPI(url.toString(), apiKey);
 
       // act
       autoComplete.predictionDetails("never mind");
@@ -218,8 +221,8 @@ import static org.assertj.core.api.Assertions.assertThat;
       server.enqueue(new MockResponse());
       HttpUrl url = server.url("/");
       String id = "my super id";
-      GooglePlacesAutoCompleteAPI
-          autoComplete = new GooglePlacesAutoCompleteAPI(url.toString(), "key");
+      GooglePlacesAutoCompleteAPI autoComplete =
+          new GooglePlacesAutoCompleteAPI(url.toString(), "key");
 
       // act
       autoComplete.predictionDetails(id);
@@ -236,8 +239,8 @@ import static org.assertj.core.api.Assertions.assertThat;
       server.enqueue(new MockResponse().setBody(json).setResponseCode(200));
 
       HttpUrl url = server.url("/");
-      GooglePlacesAutoCompleteAPI
-          autoComplete = new GooglePlacesAutoCompleteAPI(url.toString(), "key");
+      GooglePlacesAutoCompleteAPI autoComplete =
+          new GooglePlacesAutoCompleteAPI(url.toString(), "key");
 
       // act
       NetworkResponse<PlacesAutoCompleteAPI.PredictionDetails> results =
@@ -256,8 +259,8 @@ import static org.assertj.core.api.Assertions.assertThat;
       server.enqueue(new MockResponse().setResponseCode(500));
 
       HttpUrl url = server.url("/");
-      GooglePlacesAutoCompleteAPI
-          autoComplete = new GooglePlacesAutoCompleteAPI(url.toString(), "key");
+      GooglePlacesAutoCompleteAPI autoComplete =
+          new GooglePlacesAutoCompleteAPI(url.toString(), "key");
 
       // act
       NetworkResponse<PlacesAutoCompleteAPI.PredictionDetails> results =
@@ -277,8 +280,8 @@ import static org.assertj.core.api.Assertions.assertThat;
           .setSocketPolicy(SocketPolicy.DISCONNECT_DURING_RESPONSE_BODY));
 
       HttpUrl url = server.url("/");
-      GooglePlacesAutoCompleteAPI
-          autoComplete = new GooglePlacesAutoCompleteAPI(url.toString(), "key");
+      GooglePlacesAutoCompleteAPI autoComplete =
+          new GooglePlacesAutoCompleteAPI(url.toString(), "key");
 
       // act
       NetworkResponse<PlacesAutoCompleteAPI.PredictionDetails> results =

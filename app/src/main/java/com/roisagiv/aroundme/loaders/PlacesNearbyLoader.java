@@ -1,6 +1,7 @@
 package com.roisagiv.aroundme.loaders;
 
 import android.content.Context;
+import android.support.annotation.VisibleForTesting;
 import com.roisagiv.aroundme.managers.NetworkResponse;
 import com.roisagiv.aroundme.managers.PlacesNearbyAPI;
 import com.roisagiv.aroundme.models.Place;
@@ -30,5 +31,13 @@ public class PlacesNearbyLoader extends AsyncTaskLoader2<NetworkResponse<List<Pl
 
   @Override public NetworkResponse<List<Place>> loadInBackground() {
     return placesNearbyAPI.nearbyPlaces(latitude, longitude);
+  }
+
+  @VisibleForTesting public double getLatitude() {
+    return latitude;
+  }
+
+  @VisibleForTesting public double getLongitude() {
+    return longitude;
   }
 }

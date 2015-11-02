@@ -59,7 +59,7 @@ public class GooglePlacesAutoCompleteAPI implements PlacesAutoCompleteAPI {
         JSONObject predictionAsJson = predictionsAsJson.getJSONObject(i);
         AutoCompletePrediction prediction = new AutoCompletePrediction();
         prediction.setDescription(predictionAsJson.getString("description"));
-        prediction.setId(predictionAsJson.getString("id"));
+        prediction.setId(predictionAsJson.getString("place_id"));
 
         predictions.add(prediction);
       }

@@ -12,7 +12,7 @@ import java.util.List;
 /**
  *
  */
-public class MapPlacesRenderer {
+public class MapPlacesRenderer implements IMapPlacesRenderer {
 
   private final List<Marker> markersCache;
 
@@ -20,7 +20,7 @@ public class MapPlacesRenderer {
     markersCache = new ArrayList<>();
   }
 
-  public void drawPlacesOnMap(GoogleMap googleMap, List<Place> places) {
+  @Override public void drawPlacesOnMap(GoogleMap googleMap, List<Place> places) {
     // clear the cache
     for (Marker marker : markersCache) {
       marker.remove();

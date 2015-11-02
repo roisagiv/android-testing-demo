@@ -44,7 +44,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
     // assert
     RecordedRequest recordedRequest = server.takeRequest(10, TimeUnit.MILLISECONDS);
-    assertThat(recordedRequest.getPath()).contains("/maps/api/place/nearbysearch/output?");
+    assertThat(recordedRequest.getPath()).contains("/maps/api/place/nearbysearch/json?");
   }
 
   /**

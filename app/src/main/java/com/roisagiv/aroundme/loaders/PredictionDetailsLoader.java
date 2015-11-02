@@ -1,6 +1,7 @@
 package com.roisagiv.aroundme.loaders;
 
 import android.content.Context;
+import android.support.annotation.VisibleForTesting;
 import com.roisagiv.aroundme.managers.NetworkResponse;
 import com.roisagiv.aroundme.managers.PlacesAutoCompleteAPI;
 
@@ -27,5 +28,9 @@ public class PredictionDetailsLoader
 
   @Override public NetworkResponse<PlacesAutoCompleteAPI.PredictionDetails> loadInBackground() {
     return placesAutoCompleteAPI.predictionDetails(placeId);
+  }
+
+  @VisibleForTesting public String getPlaceId() {
+    return placeId;
   }
 }

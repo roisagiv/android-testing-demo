@@ -105,7 +105,7 @@ public class PlacesListAdapter extends BaseAdapter implements Filterable {
    *
    * @param predictions the predictions
    */
-  @VisibleForTesting protected void setAutoCompletePredictions(
+  @VisibleForTesting public void setAutoCompletePredictions(
       List<PlacesAutoCompleteAPI.AutoCompletePrediction> predictions) {
     autoCompletePredictions.clear();
     autoCompletePredictions.addAll(predictions);

@@ -37,7 +37,7 @@ public class GooglePlacesNearbyAPI implements PlacesNearbyAPI {
     OkHttpClient client = new OkHttpClient();
 
     HttpUrl.Builder httpBuilder = HttpUrl.get(URI.create(baseUrl)).newBuilder();
-    httpBuilder.encodedPath("/maps/api/place/nearbysearch/output")
+    httpBuilder.encodedPath("/maps/api/place/nearbysearch/json")
         .addQueryParameter("location", String.format("%s,%s", latitude, longitude))
         .addQueryParameter("radius", "500")
         .addQueryParameter("key", apiKey);
